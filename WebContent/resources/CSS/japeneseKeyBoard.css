@@ -1,0 +1,25 @@
+@CHARSET "ISO-8859-1";
+
+toto\:.bouton {
+	text-align: center;
+}
+#toto\:input{
+	font-size:1.5em;
+	font-weight: bold;
+	color : red;
+}
+
+#formulaireRecherche\:kana {
+	font-size:1.5em;
+	font-weight: bold;
+	color : red;
+}
+
+html{
+	background-color: grey;
+}
+
+.ui-datagrid-column{
+	background-color: grey!important;
+	text-align: center;
+}

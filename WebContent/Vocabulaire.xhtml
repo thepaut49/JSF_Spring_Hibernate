@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Vocabulaire</title>
+</h:head>
+<h:body>
+	<h:outputStylesheet library="CSS" name="style.css" />
+	<div>
+		<ui:include src="/WEB-INF/templates/header.xhtml">
+		</ui:include>
+	</div>
+
+	<h:form>
+		<p:megaMenu orientation="#{megaMenuView.orientation}"
+			style="margin-top:20px">
+			<p:menuitem value="Recherche par nbre de trait"
+				url="RechercheKanjibyList.xhtml" />
+			<p:menuitem value="Recherche par radicaux"
+				url="RechercheKanjibyRadicaux.xhtml" />
+			<p:menuitem value="Autre type de recherche"
+				url="RechercheKanjiKanaSensCaractere.xhtml" />
+			<p:menuitem value="Recherche vocabulaire"
+				url="RechercheVocabulaire.xhtml" />
+			<p:menuitem value="Clavier japonais" url="JapeneseKeyBoard.xhtml" />
+			<p:menuitem value="Kanji" url="Kanji.xhtml" />
+			<p:menuitem value="Vocabulaire" url="Vocabulaire.xhtml" />
+			<p:menuitem value="Radicaux" url="Radical.xhtml" />
+			<p:menuitem value="Hirgana" url="Hiragana.xhtml" />
+			<p:menuitem value="Katakana" url="Katakana.xhtml" />
+		</p:megaMenu>
+	</h:form>
+	<br/>
+
+	<h:form id="formulaireAjout">
+		<p:panelGrid id="ajoutVocabulaire" columns="2" style="width:100%">
+			<f:facet name="header">
+				Ajouter un mot de vocabulaire
+			</f:facet>
+			<label>Caractère :</label>
+			<p:inputText name="kanji"
+				value="#{vocabulaireMb.newVocabulaire.caractere}" style="width:100%" />
+			<br />
+			<label>Prononciation Kana:</label>
+			<p:inputText name="prononciationKana"
+				value="#{vocabulaireMb.newVocabulaire.prononciationKana}"
+				style="width:100%" />
+			<br />
+
+			<label>Sens :</label>
+			<p:inputText name="sens" value="#{vocabulaireMb.newVocabulaire.sens}"
+				style="width:100%" />
+
+
+		</p:panelGrid>
+		<br />
+		<div style="text-align: center">
+			<p:commandButton value="Ajouter"
+				actionListener="#{vocabulaireMb.ajouterVocabulaire()}" update="@all" />
+		</div>
+		<br />
+	</h:form>
+
+	<!-- *************Partie Affichage de la liste de Kanji*************** -->
+
+	<h:form id="table">
+
+
+
+		<p:dataTable id="tableauVocabulaire"
+			value="#{vocabulaireMb.daoVocabulaire.selectAll()}" var="vocabulaire"
+			selection="#{vocabulaireMb.selectedVocabulaire}"
+			selectionMode="single" rowKey="#{vocabulaire.id}">
+
+			<f:facet name="header">
+				Liste de vocabulaire
+			</f:facet>
+
+			<p:ajax event="rowSelect" update=":table"
+				listener="#{vocabulaireMb.showSelectedVocabulaire}" />
+
+			<p:column headerText="Id" sortBy="#{vocabulaire.id}">
+				<h:outputText value="#{vocabulaire.id}" />
+			</p:column>
+
+			<p:column headerText="Caractère">
+				<h:outputText value="#{vocabulaire.caractere}" />
+			</p:column>
+
+			<p:column headerText="Prononciation Kana">
+				<h:outputText value="#{vocabulaire.prononciationKana}" />
+			</p:column>
+
+			<p:column headerText="Sens">
+				<h:outputText value="#{vocabulaire.sens}" />
+			</p:column>
+
+		</p:dataTable>
+
+
+		<p:dialog widgetVar="ficheVocabulaire" modal="true"
+			header="Fiche du Mot sélectionné sélectionné" style="font-size:1.9em">
+			<p:panelGrid columns="2">
+				<label>Id:</label>
+				<h:outputText name="id"
+					value="#{vocabulaireMb.selectedVocabulaire.id}" />
+				<br />
+				<label>Caractère :</label>
+				<p:inputText name="mot"
+					value="#{vocabulaireMb.selectedVocabulaire.caractere}" />
+				<br />
+				<label>Prononciation en Kana:</label>
+				<p:inputText name="prononciationKana"
+					value="#{vocabulaireMb.selectedVocabulaire.prononciationKana}" />
+				<br />
+
+				<label>Sens :</label>
+				<p:inputText name="sens"
+					value="#{vocabulaireMb.selectedVocabulaire.sens}" />
+				<br />
+
+				<p:commandButton value="Modifier"
+					actionListener="#{vocabulaireMb.modifierVocabulaire()}"
+					update="@all" />
+
+			</p:panelGrid>
+
+		</p:dialog>
+
+
+	</h:form>
+
+	<div>
+		<ui:include src="/WEB-INF/templates/footer.xhtml">
+		</ui:include>
+	</div>
+</h:body>
+</html>

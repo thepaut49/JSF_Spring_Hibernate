@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>Recherche de kanji par liste</title>
+</h:head>
+
+<h:body>
+	<h:outputStylesheet library="CSS" name="style.css" />
+	<div>
+		<ui:include src="/WEB-INF/templates/header.xhtml">
+		</ui:include>
+	</div>
+
+	<h:form>
+		<p:megaMenu orientation="#{megaMenuView.orientation}"
+			style="margin-top:20px">
+			<p:menuitem value="Recherche par nbre de trait"
+				url="RechercheKanjibyList.xhtml" />
+			<p:menuitem value="Recherche par radicaux"
+				url="RechercheKanjibyRadicaux.xhtml" />
+			<p:menuitem value="Autre type de recherche"
+				url="RechercheKanjiKanaSensCaractere.xhtml" />
+			<p:menuitem value="Recherche vocabulaire"
+				url="RechercheVocabulaire.xhtml" />
+			<p:menuitem value="Clavier japonais" url="JapeneseKeyBoard.xhtml" />
+			<p:menuitem value="Kanji" url="Kanji.xhtml" />
+			<p:menuitem value="Vocabulaire" url="Vocabulaire.xhtml" />
+			<p:menuitem value="Radicaux" url="Radical.xhtml" />
+			<p:menuitem value="Hirgana" url="Hiragana.xhtml" />
+			<p:menuitem value="Katakana" url="Katakana.xhtml" />
+		</p:megaMenu>
+	</h:form>
+	<br/>
+
+	<div>
+		<h:form id="formulaireRecherche">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:tabView>
+
+
+				<p:tab title="Trie par nombre de trait (ordre croissant)">
+					<p:commandButton value="Trier"
+						actionListener="#{kanjiMb.TriParNbreTrait()}" update=":table" />
+				</p:tab>
+
+				<p:tab title="Nombre de trait exacte">
+
+					<label>Nombre de trait : </label>
+					<p:inputText value="#{kanjiMb.nbreTraitExacte}" />
+					<br />
+					<br />
+					<span> </span>
+					<p:commandButton value="Rechercher"
+						actionListener="#{kanjiMb.findMotBynbreTraitExacte()}"
+						update=":table" />
+				</p:tab>
+
+				<p:tab title="Avec un intervalle">
+
+					<label>Nombre de trait minimum : </label>
+					<p:inputText value="#{kanjiMb.nbreTraitMin}" />
+					<br />
+					<label>Nombre de trait maximum : </label>
+					<p:inputText value="#{kanjiMb.nbreTraitMax}" />
+					<br />
+
+
+					<span> </span>
+					<p:commandButton value="Rechercher"
+						actionListener="#{kanjiMb.findMotBynbreTraitMinMax()}"
+						update=":table" />
+
+				</p:tab>
+
+			</p:tabView>
+			<br />
+			<p:commandButton value="Réinitialiser"
+				actionListener="#{kanjiMb.reinitialiserRecherche()}" update=":table" />
+		</h:form>
+
+
+
+		<h:form id="table">
+			<p:dataGrid var="kanji" value="#{kanjiMb.listeSelectedKanji}"
+				columns="8" layout="grid" id="tableauKanji">
+				<f:facet name="header">
+            	Liste des Kanji
+        	</f:facet>
+
+
+				<p:commandButton value="#{kanji.caractere}"
+					action="#{kanjiMb.selectionnerKanji()}" style="font-size:1.5em"
+					update=":table">
+					<f:setPropertyActionListener target="#{kanjiMb.selectedKanji}"
+						value="#{kanji}" />
+				</p:commandButton>
+
+
+				<!-- 					<h:outputText value="#{kanji.nbreTrait}"/> -->
+			</p:dataGrid>
+
+
+			<p:dialog widgetVar="ficheKanji" modal="true"
+				header="Fiche du Kanji sélectionné" style="font-size:1.9em">
+				<p:panelGrid columns="2">
+					<label>Caractère :</label>
+					<p:inputText name="kanji"
+						value="#{kanjiMb.selectedKanji.caractere}" />
+					<br />
+					<label>Prononciation en Kana:</label>
+					<h:outputText name="prononciationKana"
+						value="#{kanjiMb.selectedKanji.prononciationKana}" />
+					<br />
+					<label>Nombre de trait :</label>
+					<h:outputText name="nbreTrait"
+						value="#{kanjiMb.selectedKanji.nbreTrait}" />
+					<br />
+					<label>Sens :</label>
+					<h:outputText name="sens" value="#{kanjiMb.selectedKanji.sens}" />
+					<br />
+
+					<label>Radicaux :</label>
+					<p:dataGrid var="radical" value="#{kanjiMb.selectedKanji.radicaux}"
+						columns="10" layout="grid">
+						<h:outputText value="#{radical.caractere}" />
+					</p:dataGrid>
+
+
+					<p:commandButton value="inserer dans saisie"
+						action="#{clavierMb.insertionRecherche(kanjiMb.selectedKanji.caractere)}" />
+
+
+					<p:commandButton value="Fermer"
+						actionListener="#{kanjiMb.closePopUpKanji}" update=":table" />
+
+
+				</p:panelGrid>
+
+			</p:dialog>
+		</h:form>
+	</div>
+
+
+	<div>
+		<ui:include src="/WEB-INF/templates/footer.xhtml">
+		</ui:include>
+	</div>
+
+
+
+</h:body>
+</html>

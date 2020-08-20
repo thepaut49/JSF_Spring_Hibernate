@@ -1,0 +1,119 @@
+@CHARSET "ISO-8859-1";
+html{
+	background-color: grey;
+}
+
+body{
+    
+    font: 1em sans-serif;
+    margin:2px;
+}
+
+.header-cont {
+    width:100%;
+    top:0px;
+}
+
+.header {
+    height:50px;
+    border:1px solid #CCC;
+    width:960px;
+    margin:0px auto;
+}
+
+.content {
+    width:960px;
+    border: 1px solid #CCC;
+    height: 2000px;
+    margin: 0px auto;
+}
+
+/* entete de la page*/
+#entete {
+	background-color: Darkred;
+	text-align: center;
+	width: 100%;
+	font-size: 50px;
+	line-height: 60px;
+	top:0px;
+	margin:0px
+}
+
+
+#entete1 {
+	background-color: Darkred;
+	text-align: right;
+	width: 100%;
+	font-size: 50px;
+	line-height: 60px;
+	color: Darkred;
+}
+
+
+/*Liste Kanji*/
+#listeKanji {
+	Font-family: arial, sans-serif;
+	Font-size: 26px;
+}
+
+.hiragana {
+	text-align: center;
+}
+
+#ajoutRadical{
+	
+}
+
+#tableauKanji{
+	
+}
+
+#body {
+	min-height: 100%;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+	display: inline-block;
+	text-align: center;
+}
+
+
+/* Pied de page */
+#pied {
+	text-align: center;
+	color: white;
+	Width: 100%;
+	bottom:0px;
+}
+
+.ui-datagrid-column{
+	background-color: grey!important;
+	text-align: center;
+}
+
+.ui-menu .ui-menuitem-link{
+	color:#0000a0;
+	font-weight: bold;
+	background-color: #c0c0c0;
+}
+
+.ui-menuitem .ui-widget .ui-corner-all :hover, 
+.ui-menu .ui-menuitem-link :focus{
+    background-color: #c0c0c0;                
+}
+
+.ui-menuitem .ui-widget .ui-corner-all :active{
+    background-color: #c0c0c0; 
+}
+
+.ui-menu .ui-menuitem-link ::before{
+    content: '';
+    position: absolute;
+    background-color: #c0c0c0;
+}
+
+.ui-menu .ui-menuitem-link:hover ::before,
+.ui-menu .ui-menuitem-link:focus ::before{
+    background-color: #c0c0c0;
+    
+}

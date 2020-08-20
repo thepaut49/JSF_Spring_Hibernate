@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Recherche de Vocabulaire</title>
+	<h:outputScript library="scripts" name="japeneseKeyBoard.js" />
+
+
+</h:head>
+
+<h:body>
+	<h:outputStylesheet library="CSS" name="style.css" />
+
+	<div>
+		<ui:include src="/WEB-INF/templates/header.xhtml">
+		</ui:include>
+	</div>
+
+	<h:form>
+		<p:megaMenu orientation="#{megaMenuView.orientation}"
+			style="margin-top:20px">
+			<p:menuitem value="Recherche par nbre de trait"
+				url="RechercheKanjibyList.xhtml" />
+			<p:menuitem value="Recherche par radicaux"
+				url="RechercheKanjibyRadicaux.xhtml" />
+			<p:menuitem value="Autre type de recherche"
+				url="RechercheKanjiKanaSensCaractere.xhtml" />
+			<p:menuitem value="Recherche vocabulaire"
+				url="RechercheVocabulaire.xhtml" />
+			<p:menuitem value="Clavier japonais" url="JapeneseKeyBoard.xhtml" />
+			<p:menuitem value="Kanji" url="Kanji.xhtml" />
+			<p:menuitem value="Vocabulaire" url="Vocabulaire.xhtml" />
+			<p:menuitem value="Radicaux" url="Radical.xhtml" />
+			<p:menuitem value="Hirgana" url="Hiragana.xhtml" />
+			<p:menuitem value="Katakana" url="Katakana.xhtml" />
+		</p:megaMenu>
+	</h:form>
+	<br/>
+
+	<h:form id="form">
+
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:tabView>
+			<p:tab title="Recherche par kanji">
+
+				<label>Caractère : </label>
+				<p:inputText name="kanji" value="#{vocabulaireMb.kanji}" size="20" />
+				<span> </span>
+				<p:commandButton value="Rechercher"
+					actionListener="#{vocabulaireMb.rechercherByKanji()}"
+					update=":table" />
+
+			</p:tab>
+			<p:tab title="Recherche par kana">
+				<label>Kana : </label>
+				<p:inputText name="kana"
+					onkeyup="translateString(this); return false;"
+					value="#{vocabulaireMb.kana}" size="20" />
+				<span> </span>
+				<p:commandButton value="Rechercher"
+					actionListener="#{vocabulaireMb.rechercherByKana()}"
+					update=":table" />
+			</p:tab>
+			<p:tab title="Recherche par le sens">
+
+				<label>Sens : </label>
+				<p:inputText name="sens" value="#{vocabulaireMb.sens}" size="20" />
+				<span> </span>
+				<p:commandButton value="Rechercher"
+					actionListener="#{vocabulaireMb.rechercherBySens()}"
+					update=":table" />
+
+			</p:tab>
+		</p:tabView>
+
+		<p:commandButton value="Réinitialiser"
+			actionListener="#{vocabulaireMb.reinitialiserRecherche()}"
+			update="@all" />
+	</h:form>
+
+
+	<br />
+	<br />
+
+	<!-- *************Partie Affichage de la liste des résultats*************** -->
+
+	<h:form id="table">
+		<p:dataTable id="tableauVocabulaire"
+			value="#{vocabulaireMb.listeResultat}" var="vocabulaire"
+			selection="#{vocabulaireMb.selectedVocabulaire}"
+			selectionMode="single" rowKey="#{vocabulaire.id}">
+
+			<f:facet name="header">
+				Liste de résultats
+			</f:facet>
+
+			<p:ajax event="rowSelect" update=":table"
+				listener="#{vocabulaireMb.showSelectedVocabulaire}" />
+
+			<p:column headerText="Id" sortBy="#{vocabulaire.id}">
+				<h:outputText value="#{vocabulaire.id}" />
+			</p:column>
+
+			<p:column headerText="Caractère">
+				<h:outputText value="#{vocabulaire.caractere}" />
+			</p:column>
+
+			<p:column headerText="Prononciation Kana">
+				<h:outputText value="#{vocabulaire.prononciationKana}" />
+			</p:column>
+
+			<p:column headerText="Sens">
+				<h:outputText value="#{vocabulaire.sens}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:dialog widgetVar="ficheVocabulaire" modal="true"
+			header="Fiche du Mot sélectionné sélectionné" style="font-size:1.9em">
+			<p:panelGrid columns="2">
+				<label>Id:</label>
+				<h:outputText name="id"
+					value="#{vocabulaireMb.selectedVocabulaire.id}" />
+				<br />
+				<label>Caractère :</label>
+				<p:inputText name="mot"
+					value="#{vocabulaireMb.selectedVocabulaire.caractere}" />
+				<br />
+				<label>Prononciation en Kana:</label>
+				<h:outputText name="prononciationKana"
+					value="#{vocabulaireMb.selectedVocabulaire.prononciationKana}" />
+				<br />
+
+				<label>Sens :</label>
+				<h:outputText name="sens"
+					value="#{vocabulaireMb.selectedVocabulaire.sens}" />
+
+				<p:commandButton value="inserer dans saisie"
+					action="#{clavierMb.insertionRecherche(vocabulaireMb.selectedVocabulaire.caractere)}" />
+
+				<p:commandButton value="Fermer"
+					actionListener="#{vocabulaireMb.closePopUpVocabulaire}"
+					update=":table" />
+
+			</p:panelGrid>
+
+		</p:dialog>
+
+	</h:form>
+
+	<div>
+		<ui:include src="/WEB-INF/templates/footer.xhtml">
+		</ui:include>
+	</div>
+</h:body>
+</html>

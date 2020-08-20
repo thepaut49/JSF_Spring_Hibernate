@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Radical</title>
+
+</h:head>
+<h:body  >
+	<h:outputStylesheet library="CSS" name="style.css"/>
+	<div>
+		<ui:include src="/WEB-INF/templates/header.xhtml">
+		</ui:include>
+	</div>
+	
+	
+		<h:form>
+		<p:megaMenu orientation="#{megaMenuView.orientation}"
+			style="margin-top:20px">
+			<p:menuitem value="Recherche par nbre de trait" url="RechercheKanjibyList.xhtml" />
+			<p:menuitem value="Recherche par radicaux" url="RechercheKanjibyRadicaux.xhtml" />
+			<p:menuitem value="Autre type de recherche" url="RechercheKanjiKanaSensCaractere.xhtml" />
+			<p:menuitem value="Recherche vocabulaire" url="RechercheVocabulaire.xhtml" />
+			<p:menuitem value="Clavier japonais" url="JapeneseKeyBoard.xhtml" />
+			<p:menuitem value="Kanji" url="Kanji.xhtml" />
+			<p:menuitem value="Vocabulaire" url="Vocabulaire.xhtml" />
+			<p:menuitem value="Radicaux" url="Radical.xhtml" />
+			<p:menuitem value="Hirgana" url="Hiragana.xhtml" />
+			<p:menuitem value="Katakana" url="Katakana.xhtml" />
+		</p:megaMenu>
+	</h:form>
+	<br/>
+	
+	<!-- *************Ajout d'un nouveau Radical *************** -->
+	<h:form id="formulaireAjout">
+		<p:panel header="Ajouter un radical" columns="1" id="zoneAjoutRadical" style="text-align:center">
+			<p:panelGrid id="ajoutRadical" columns="2">
+				<f:facet name="header">
+							Caractéristiques du nouveau radical
+					</f:facet>
+				<label>Caractère :</label>
+				<p:inputText name="radical" value="#{kanjiMb.newRadical.caractere}" />
+				<br />
+
+				<label>nombre de trait :</label>
+				<p:inputText name="nbreTrait"
+					value="#{kanjiMb.newRadical.nbreTrait}" />
+				<br />
+				<label>Sens :</label>
+				<p:inputText name="sens" value="#{kanjiMb.newRadical.sens}" />
+				<br/>
+				<p:commandButton value="Ajouter radical"
+					actionListener="#{kanjiMb.ajouterRadical()}" update="@all" />
+			</p:panelGrid>
+			
+			
+			
+
+		</p:panel>
+		
+		
+	</h:form>
+
+	<!-- *************Partie Affichage de la liste de Radicaux*************** -->
+
+	<h:form id="table">
+
+		<p:dataTable id="tableauRadicaux" value="#{kanjiMb.listeRadicaux}"
+			var="radical" selection="#{kanjiMb.selectedRadical}"
+			selectionMode="single" rowKey="#{radical.id}">
+
+			<f:facet name="header">
+				Liste des radicaux
+			</f:facet>
+
+			<p:ajax event="rowSelect" update=":table" listener="#{kanjiMb.showSelectedRadical}"/>
+
+			<p:column headerText="Id radical" sortBy="#{radical.id}">
+				<h:outputText value="#{radical.id}" />
+			</p:column>
+
+			<p:column headerText="Caractère">
+				<h:outputText value="#{radical.caractere}" />
+			</p:column>
+
+			<p:column headerText="Nombre de Trait" sortBy="#{radical.nbreTrait}">
+				<h:outputText value="#{radical.nbreTrait}" />
+			</p:column>
+
+			<p:column headerText="Sens">
+				<h:outputText value="#{radical.sens}" />
+			</p:column>
+
+		</p:dataTable>
+
+		
+		
+		<p:dialog widgetVar="ficheRadical" modal="true"
+			header="Fiche du radical sélectionné" style="font-size:1.9em">
+			<p:panelGrid columns="2">
+				<label>Caractère :</label>
+				<h:outputText name="kanji"
+					value="#{kanjiMb.selectedRadical.caractere}" />
+				<br />
+				<label>Nombre de trait :</label>
+				<h:outputText name="nbreTrait"
+					value="#{kanjiMb.selectedRadical.nbreTrait}" />
+				<br />
+				<label>Sens :</label>
+				<h:outputText name="sens" value="#{kanjiMb.selectedRadical.sens}" />
+
+			</p:panelGrid>
+
+		</p:dialog>
+
+	</h:form>
+
+	<div>
+		<ui:include src="/WEB-INF/templates/footer.xhtml">
+		</ui:include>
+	</div>
+</h:body>
+</html>
