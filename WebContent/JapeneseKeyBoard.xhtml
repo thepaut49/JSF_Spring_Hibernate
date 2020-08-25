@@ -21,25 +21,28 @@
 		<ui:include src="/WEB-INF/templates/header.xhtml">
 		</ui:include>
 	</div>
+	
+	<h:form>  	 
+	    <p:menubar>
+	        <p:submenu label="Search Kanji" icon="ui-icon-search">
+	            <p:menuitem value="Search Kanji by radicals" url="RechercheKanjiByRadicals.xhtml" icon="ui-icon-search"/>
+	            <p:separator />
+	            <p:menuitem value="Search Kanji by Kanji/Kana/meaning" url="RechercheKanji.xhtml" icon="ui-icon-search"/>
+	        </p:submenu>
+	         
+	        <p:menuitem value="Search vocabulary" icon="ui-icon-search" url="RechercheVocabulaire.xhtml"/>
+	        
+	        <p:menuitem value="Search names" icon="ui-icon-search" url="RechercheNames.xhtml"/>
+	        
+	        <p:menuitem value="Japanese Keyboard" icon="ui-icon-search" url="JapeneseKeyBoard.xhtml"/>
 
-	<h:form>
-		<p:megaMenu orientation="#{megaMenuView.orientation}"
-			style="margin-top:20px">
-			<p:menuitem value="Recherche par nbre de trait"
-				url="RechercheKanjibyList.xhtml" />
-			<p:menuitem value="Recherche par radicaux"
-				url="RechercheKanjibyRadicaux.xhtml" />
-			<p:menuitem value="Autre type de recherche"
-				url="RechercheKanjiKanaSensCaractere.xhtml" />
-			<p:menuitem value="Recherche vocabulaire"
-				url="RechercheVocabulaire.xhtml" />
-			<p:menuitem value="Clavier japonais" url="JapeneseKeyBoard.xhtml" />
-			<p:menuitem value="Kanji" url="Kanji.xhtml" />
-			<p:menuitem value="Vocabulaire" url="Vocabulaire.xhtml" />
-			<p:menuitem value="Radicaux" url="Radical.xhtml" />
-			<p:menuitem value="Hirgana" url="Hiragana.xhtml" />
-			<p:menuitem value="Katakana" url="Katakana.xhtml" />
-		</p:megaMenu>
+	        <p:menuitem value="Edit Kanji" icon="ui-icon-pencil" url="Kanji.xhtml"/>
+
+	        <p:menuitem value="Edit vocabulary" icon="ui-icon-pencil" url="Vocabulary.xhtml"/>
+
+	        <p:menuitem value="Edit names" icon="ui-icon-pencil" url="Names.xhtml"/>
+	
+	    </p:menubar>
 	</h:form>
 	<br />
 
@@ -49,387 +52,293 @@
 			onkeyup="translateString(this); return false;"
 			value="#{clavierMb.stringToTranslate}" />
 
-		<br />
-		<p:commandButton value="charger"
+		<br/>
+		<p:outputLabel value="#{clavierMb.stringPronunciation}" style="font-size:  xx-large;font-weight: bold;"></p:outputLabel>
+		<br/>
+		<p:commandButton value="Load"
 			actionListener="#{clavierMb.chargerSaisie()}" update=":toto" />
 
-		<p:commandButton value="sauvegarder"
+		<p:commandButton value="Save"
 			actionListener="#{clavierMb.sauverSaisie()}" update=":toto" />
-		<table>
-			<tbody>
-				<tr>
-					<td><input type="text" value="〜"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="・"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="ー"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="「"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="」"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="、"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-				</tr>
-
-				<tr>
-					<td><input type="text" value="。"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="々"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="ヽ"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="ヾ"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="ゝ"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-					<td><input type="text" value="ゞ"
-						style="font-size: 1.5em; width: 30px; height: 30px;"
-						onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-				</tr>
-			</tbody>
-		</table>
+			
+			
+	    <p:panelGrid columns="2" rowClasses="height8" style="width:100%">    
+	    	<p:panel header="Extras" style="height:100%">
+	    	
+			<table>
+				<tbody>
+					<tr>
+					    <td><input type="text" value="ん"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+							
+						<td><input type="text" value="〜"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="・"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="ー"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="「"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="」"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="、"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+					</tr>
+	
+					<tr>			    
+					    <td><input type="text" value="ン"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+						<td><input type="text" value="。"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="々"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="ヽ"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="ヾ"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="ゝ"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+						<td><input type="text" value="ゞ"
+							style="font-size: 1.5em; width: 30px; height: 30px;"
+							onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			</p:panel>  
+			<p:panel header="Kanji" style="height:100%">
+			
+			
+			<table style="margin: auto; text-align: center; position: center">
+						<tbody>
+							<tr>
+								<td><input type="text" value="日"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="人"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="女"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="男"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="子"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="私"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="弟"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="父"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="心"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="兄"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="前"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="行"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="来"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="姿"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="気"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+							</tr>
+	
+							<tr>
+								<td><input type="text" value="僕"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="俺"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="彼"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="言"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="一"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="母"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="好"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="嫌"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="事"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="姉"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="妹"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="思"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="何"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="時"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="持"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+							</tr>
+	
+							<tr>
+								<td><input type="text" value="話"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="今"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+	
+								<td><input type="text" value="見"
+									style="font-size: 1.5em; width: 30px; height: 30px;"
+									onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
+							</tr>
+						</tbody>
+					</table>
+					</p:panel>
+				</p:panelGrid>	
 
 	</h:form>
 
 	<br />
-
-
-
-	<h:form id="formulaireRecherche">
-
-		<p:growl id="msgs" showDetail="true" />
-
-		<p:tabView>
-			<p:tab title="Kanji très utilisé">
-
-				<table style="margin: auto; text-align: center; position: center">
-					<tbody>
-						<tr>
-							<td><input type="text" value="日"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="人"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="女"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="男"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="子"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="私"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="弟"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="父"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="心"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="兄"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="前"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="行"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="来"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="姿"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="気"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-						</tr>
-
-						<tr>
-							<td><input type="text" value="僕"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="俺"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="彼"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="言"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="一"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="母"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="好"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="嫌"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="事"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="姉"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="妹"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="思"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="何"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="時"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="持"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-						</tr>
-
-						<tr>
-							<td><input type="text" value="話"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="今"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="見"
-								style="font-size: 1.5em; width: 30px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-						</tr>
-					</tbody>
-				</table>
-
-			</p:tab>
-
-			<p:tab title="Vocabulaire très utilisé">
-
-				<table style="margin: auto; text-align: center; position: center">
-					<tbody>
-						<tr>
-							<td><input type="text" value="彼女"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="馬鹿"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="私達"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="結婚"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="会社"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="気持ち"
-								style="font-size: 1.5em; width: 80px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="友達"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="電車"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-						</tr>
-						<tr>
-							<td><input type="text" value="自分"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="出来"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="家族"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-
-						</tr>
-					</tbody>
-				</table>
-
-
-			</p:tab>
-
-			<p:tab title="Nom/prénom très utilisé">
-
-				<table style="margin: auto; text-align: center; position: center">
-					<tbody>
-						<tr>
-							<td><input type="text" value="菜摘"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="藤本"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="松井"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="須田"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="真琴"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="崇"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-						</tr>
-
-						<tr>
-							<td><input type="text" value="愛耶"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="吉川"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="嘉村"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="成美"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-							<td><input type="text" value="戸田"
-								style="font-size: 1.5em; width: 60px; height: 30px;"
-								onclick="evenementKanjiClick(this);" readonly="readonly" /></td>
-
-
-						</tr>
-					</tbody>
-				</table>
-
-
-			</p:tab>
-		</p:tabView>
-
-
-
-
-		<h2>Rechercher un kanji avec des kanas :</h2>
-
-		<p:inputText id="kana" value="#{kanjiMb.kana}"
-			onkeyup="translateString(this); return false;" size="30" />
-
-
-
-		<br />
-
-		<p:commandButton value="Réinitialiser"
-			actionListener="#{kanjiMb.reinitialiserAutreRecherche()}"
-			update=":table" />
-
-		<p:commandButton value="Rechercher"
-			actionListener="#{kanjiMb.rechercherByKana()}" update=":table" />
-
-	</h:form>
-
-	<br />
-	<br />
-
-	<!-- *************Partie Affichage de la liste des résultats*************** -->
-
-	<h:form id="table">
-		<p:dataGrid var="kanji" value="#{kanjiMb.listeResultats}" columns="10"
-			layout="grid" id="tableauKanji">
-			<f:facet name="header">
-            	Liste des Kanji
-        	</f:facet>
-
-			<input type="text" value="#{kanji.caractere}"
-				style="font-size: 1.5em; width: 30px; height: 30px;"
-				onclick="evenementKanjiClick(this);" readonly="readonly" />
-
-
-		</p:dataGrid>
-
-
-	</h:form>
+	
+	
+	<h:form id="form1">
+            <p:panel header="Associated Vocabulary and Kanji" style="width: 100%;"> 
+                <p:commandButton value="Search data" actionListener="#{clavierMb.addAction}" update=":form1"/>
+                <p:commandButton value="Add missing data" actionListener="#{clavierMb.ajoutPartieManquante}" update="@all"/>
+                <p:commandButton value="Clear data" actionListener="#{clavierMb.clearAction}" update=":form1"/>
+                <br />
+                <br />
+                <p:dataGrid value="#{clavierMb.orderList}" var="voc" styleClass="someCustomClass" style="width: 100%;" 
+                columns="6" layout="grid">
+                    <f:facet name="header">  
+                        Associated Vocabulary
+                    </f:facet>
+                    
+                    <p:panel header="#{voc.wordAssociated.word}" style="text-align:center;width:100%;">
+			            <h:panelGrid columns="1" rowClasses="height8" style="width:100%;">
+			                <h:panelGrid columns="3">
+			                	<p:commandButton icon="fa fa-long-arrow-left"  actionListener="#{clavierMb.moveToLeft(voc)}" update=":form1" />
+			                	<p:commandButton icon="fa fa-long-arrow-right" actionListener="#{clavierMb.moveToRight(voc)}" update=":form1" />
+			                	<p:commandButton icon="fa fa-remove" actionListener="#{clavierMb.deleteVocabulary(voc)}" update=":form1" />
+			                </h:panelGrid>
+			 				<h:outputText value="#{voc.wordAssociated.pronunciation}" /> 
+			 				<h:outputText value="#{voc.wordAssociated.meaning1}" />
+			 				<h:outputText value="#{voc.wordAssociated.meaning2}" />
+			 				<h:outputText value="#{voc.wordAssociated.meaning3}" /> 			
+			            </h:panelGrid>
+			        </p:panel>                           
+                </p:dataGrid>
+                
+                <br />
+                <p:dataTable value="#{clavierMb.orderListKanji}" var="kanji"  widgetVar="50" style="width: 100%;" >
+                    <f:facet name="header">  
+                        Associated Kanji
+                    </f:facet> 
+                    <p:column style="width: 10%;">
+                        <f:facet name="header">  
+                            <h:outputText value="Kanji" />  
+                        </f:facet>
+                         <h:outputText value="#{kanji.caractere}" style="font-size:  xx-large;font-weight: bold;"/>  
+                    </p:column>
+ 
+                    <p:column style="width: 65%;">
+                        <f:facet name="header">  
+                            <h:outputText value="Pronunciation" />  
+                        </f:facet>
+                        <h:inputTextarea name="selectedPrononciationKana" rows="4" cols="50"
+					    value="#{kanji.pronunciation}"  />
+                    </p:column>
+ 
+                    <p:column style="width: 25%;">
+                        <f:facet name="header">  
+                            <h:outputText value="Meaning" />  
+                        </f:facet> 
+                        <h:outputText value="#{kanji.meaning}" />  
+                    </p:column>                                
+                </p:dataTable>
+            </p:panel>
+    </h:form>
 
 	<div>
 		<ui:include src="/WEB-INF/templates/footer.xhtml">

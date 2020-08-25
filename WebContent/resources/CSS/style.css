@@ -1,6 +1,6 @@
 @CHARSET "ISO-8859-1";
 html{
-	background-color: grey;
+	background-color: #800000;
 }
 
 body{
@@ -60,13 +60,6 @@ body{
 	text-align: center;
 }
 
-#ajoutRadical{
-	
-}
-
-#tableauKanji{
-	
-}
 
 #body {
 	min-height: 100%;
@@ -87,33 +80,18 @@ body{
 }
 
 .ui-datagrid-column{
-	background-color: grey!important;
 	text-align: center;
 }
 
 .ui-menu .ui-menuitem-link{
 	color:#0000a0;
 	font-weight: bold;
-	background-color: #c0c0c0;
 }
 
-.ui-menuitem .ui-widget .ui-corner-all :hover, 
-.ui-menu .ui-menuitem-link :focus{
-    background-color: #c0c0c0;                
+.ui-megamenu {
+	color:#0000a0;
 }
 
-.ui-menuitem .ui-widget .ui-corner-all :active{
-    background-color: #c0c0c0; 
-}
 
-.ui-menu .ui-menuitem-link ::before{
-    content: '';
-    position: absolute;
-    background-color: #c0c0c0;
-}
 
-.ui-menu .ui-menuitem-link:hover ::before,
-.ui-menu .ui-menuitem-link:focus ::before{
-    background-color: #c0c0c0;
-    
-}
+

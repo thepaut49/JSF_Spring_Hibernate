@@ -1,65 +1,47 @@
 package com.thepolo.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
+
+import java.util.Comparator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 
 
 @Entity
 @Table(name="kanji")
-public class Kanji implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-
+public class Kanji{
 	
 	private Integer id;
 	
 	
 	private String caractere;
 	
-	
-	private String prononciationKana;
-	
-	
-	private String sens;
+		
+	private String pronunciation;
 	
 	
-	private Integer nbreTrait;
+	private String meaning;
 	
 	
-//	@JoinTable(name="kanji_radical",joinColumns=
-//	@JoinColumn(name="kanji_id",referencedColumnName="kanji_id"),
-//	inverseJoinColumns=@JoinColumn(name="radical_id",referencedColumnName="radical_id"))
-//	@ManyToMany(fetch = FetchType.EAGER,targetEntity = Radical.class, cascade = {CascadeType.PERSIST})
-//	@JoinTable(name = "kanji_radical", joinColumns = {
-//			@JoinColumn(name = "kanji_id")
-//			}, inverseJoinColumns = {
-//			@JoinColumn(name = "radical_id")
-//			})
-//	private List<Radical> radicaux = new ArrayList<Radical>();
+	private Integer strokes;
 	
 	
-	private List<Radical> radicaux = new ArrayList<Radical>();
+	private String radicals;
+	
+	
+	private Integer searchCount;
+	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="kanji_id")
+	@Column(name="id")
 	public Integer getId() {
 		return id;
 	}
@@ -68,54 +50,60 @@ public class Kanji implements Serializable{
 		this.id = id;
 	}
 
-	@Column(name="nbre_trait")
+	@Column(name="caractere")
 	public String getCaractere() {
 		return caractere;
 	}
 
-	@Column(name="caractere")
 	public void setCaractere(String caractere) {
 		this.caractere = caractere;
 	}
 
-	@Column(name="prononciationKana")
-	public String getPrononciationKana() {
-		return prononciationKana;
+	
+	@Column(name="pronunciation")
+	public String getPronunciation() {
+		return pronunciation;
 	}
 
-	public void setPrononciationKana(String prononciationKana) {
-		this.prononciationKana = prononciationKana;
+	public void setPronunciation(String pronunciation) {
+		this.pronunciation = pronunciation;
 	}
 
-	@Column(name="sens")
-	public String getSens() {
-		return sens;
+	@Column(name="meaning")
+	public String getMeaning() {
+		return meaning;
 	}
 
-	public void setSens(String sens) {
-		this.sens = sens;
+	public void setMeaning(String meaning) {
+		this.meaning = meaning;
 	}
 	
-	public Integer getNbreTrait() {
-		return nbreTrait;
+	@Column(name="strokes")
+	public Integer getStrokes() {
+		return strokes;
 	}
 
-	public void setNbreTrait(Integer nbreTrait) {
-		this.nbreTrait = nbreTrait;
+	public void setStrokes(Integer strokes) {
+		this.strokes = strokes;
 	}
 
-	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
-	@JoinTable(name = "kanji_radical", joinColumns = {
-			@JoinColumn(name = "kanji_id",referencedColumnName="kanji_id")
-			}, inverseJoinColumns = {
-			@JoinColumn(name = "radical_id",referencedColumnName="radical_id")
-			})
-	public List<Radical> getRadicaux() {
-		return radicaux;
+	@Column(name="radicals")
+	public String getRadicals() {
+		return radicals;
 	}
 
-	public void setRadicaux(List<Radical> radicaux) {
-		this.radicaux = radicaux;
+	public void setRadicals(String radicals) {
+		this.radicals = radicals;
+	}
+	
+	
+	@Column(name="searchCount")
+	public Integer getSearchCount() {
+		return searchCount;
+	}
+
+	public void setSearchCount(Integer searchCount) {
+		this.searchCount = searchCount;
 	}
 
 	/**********Constructeurs***********/
@@ -124,64 +112,61 @@ public class Kanji implements Serializable{
 		super();
 	}
 	
-	public Kanji(String caractere, String prononciationKana, String sens, Integer nbreTrait) {
+	public Kanji(String caractere, String pronunciation, String meaning, Integer strokes) {
 		super();
 		this.caractere = caractere;
-		this.prononciationKana = prononciationKana;
-		this.sens = sens;
-		this.nbreTrait = nbreTrait;
+		this.pronunciation = pronunciation;
+		this.meaning = meaning;
+		this.strokes = strokes;
 	}
 	
-
-	public Kanji(String caractere, String prononciationKana, String sens,
-			Integer nbreTrait, List<Radical> radicaux) {
+	public Kanji(String caractere, String pronunciation, String meaning, Integer strokes, String radicals) {
 		super();
 		this.caractere = caractere;
-		this.prononciationKana = prononciationKana;
-		this.sens = sens;
-		this.nbreTrait = nbreTrait;
-		this.radicaux = radicaux;
+		this.pronunciation = pronunciation;
+		this.meaning = meaning;
+		this.strokes = strokes;
+		this.radicals = radicals;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((caractere == null) ? 0 : caractere.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((nbreTrait == null) ? 0 : nbreTrait.hashCode());
-		result = prime
-				* result
-				+ ((prononciationKana == null) ? 0 : prononciationKana
-						.hashCode());
-		result = prime * result
-				+ ((radicaux == null) ? 0 : radicaux.hashCode());
-		result = prime * result + ((sens == null) ? 0 : sens.hashCode());
-		return result;
-	}
-
 	
+	public Kanji(Integer id, String caractere, String pronunciation, String meaning, Integer strokes, String radicals) {
+        super();
+        this.id = id;
+        this.caractere = caractere;
+        this.pronunciation = pronunciation;
+        this.meaning = meaning;
+        this.strokes = strokes;
+        this.radicals = radicals;
+    }
+
+	public Kanji(Integer id, String caractere, String pronunciation, String meaning, Integer strokes, String radicals, Integer searchCount) {
+        super();
+        this.id = id;
+        this.caractere = caractere;
+        this.pronunciation = pronunciation;
+        this.meaning = meaning;
+        this.strokes = strokes;
+        this.radicals = radicals;
+        this.searchCount = searchCount;
+    }
 
 	/**********Methodes***********/
 
 	
 	@Override
-	public boolean equals(Object obj) {
-		Kanji other = (Kanji) obj;
-		if (caractere == null) {
-			if (other.caractere != null)
-				return false;
-		} else {
-			if (caractere.equals(other.caractere)){
-				return true;
-			}else {
-				return false;
-			}
-		}
-		return false;
-			
+    public boolean equals(Object obj) {
+        Kanji other = (Kanji) obj;
+        if (caractere.equals(other.caractere)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+	
+	@Override
+	public String toString() {
+		return "Kanji [id=" + id + ", caractere=" + caractere
+				+ ", pronunciation=" + pronunciation + ", meaning=" + meaning
+				+ ", strokes=" + strokes + ", radicals=" + radicals + "]";
 	}
-
 }

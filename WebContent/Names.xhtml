@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Names</title>
+	<h:outputScript library="scripts" name="japeneseKeyBoard.js" />
+
+</h:head>
+<h:body>
+	<h:outputStylesheet library="CSS" name="style.css"/>
+	<div>
+		<ui:include src="/WEB-INF/templates/header.xhtml">
+		</ui:include>
+	</div>
+	
+	<h:form>  	 
+	    <p:menubar>
+	        <p:submenu label="Search Kanji" icon="ui-icon-search">
+	            <p:menuitem value="Search Kanji by radicals" url="RechercheKanjiByRadicals.xhtml" icon="ui-icon-search"/>
+	            <p:separator />
+	            <p:menuitem value="Search Kanji by Kanji/Kana/meaning" url="RechercheKanji.xhtml" icon="ui-icon-search"/>
+	        </p:submenu>
+	         
+	        <p:menuitem value="Search vocabulary" icon="ui-icon-search" url="RechercheVocabulaire.xhtml"/>
+	        
+	        <p:menuitem value="Search names" icon="ui-icon-search" url="RechercheNames.xhtml"/>
+	        
+	        <p:menuitem value="Japanese Keyboard" icon="ui-icon-search" url="JapeneseKeyBoard.xhtml"/>
+
+	        <p:menuitem value="Edit Kanji" icon="ui-icon-pencil" url="Kanji.xhtml"/>
+
+	        <p:menuitem value="Edit vocabulary" icon="ui-icon-pencil" url="Vocabulary.xhtml"/>
+
+	        <p:menuitem value="Edit names" icon="ui-icon-pencil" url="Names.xhtml"/>
+	
+	    </p:menubar>
+	</h:form>
+	<br />
+
+	<h:form id="formulaireAjout">
+		<p:panelGrid id="ajoutName" columns="2" style="width:100%">
+			<f:facet name="header">
+				Add a Name
+			</f:facet>
+			<label>Name :</label>
+			<p:inputText name="motAjout" value="#{nameMb.newNames.word}" />
+			<br/>
+			<label>Pronunciation :</label>
+			<p:inputText name="pronunciationAjout"
+				value="#{nameMb.newNames.pronunciation}" style="width:100%" />
+			<br/>				
+			<br/>
+
+			<p:commandButton value="Add name"
+				actionListener="#{nameMb.ajouterNames()}" update="@all" />
+		</p:panelGrid>	
+				
+	</h:form>
+	
+	
+	<!-- *************Partie Affichage de la liste de Names*************** -->
+
+	<h:form id="table">
+
+		<p:dataTable id="tableauNames" value="#{nameMb.service.selectAll()}"
+			var="names"  selection="#{nameMb.selectedNames}"
+			selectionMode="single" rowKey="#{names.id}">
+
+			<f:facet name="header">
+				List of names
+			</f:facet>
+
+			<p:ajax event="rowSelect" listener="#{nameMb.showSelectedNames}"
+				update=":table" />
+
+			<p:column headerText="Id" sortBy="#{names.id}" style="width:5%">
+				<h:outputText value="#{names.id}" />
+			</p:column>
+
+			<p:column headerText="Name">
+				<h:outputText value="#{names.word}" />
+			</p:column>
+
+			<p:column headerText="Pronunciation">
+				<h:outputText value="#{names.pronunciation}" />
+			</p:column>
+			
+		</p:dataTable>
+		
+		
+		<p:dialog widgetVar="ficheNames" modal="true"
+			header="Selected Names info" style="font-size:1.9em">
+			<p:panelGrid columns="2">
+				<label>Name :</label>
+				<p:inputText name="selectedWord"
+					value="#{nameMb.selectedNames.word}" />
+				<br />
+				<label>Pronunciation :</label>
+				<p:inputText name="selectedPronunciation"
+					value="#{nameMb.selectedNames.pronunciation}" />
+				
+				<p:commandButton value="Update"
+					actionListener="#{nameMb.modifierNames()}" update="@all"/>	
+	
+				<p:commandButton value="Close"
+					actionListener="#{nameMb.closePopUpNames()}" update="@all"/>
+				
+				
+			</p:panelGrid>						
+
+		</p:dialog>
+		
+
+
+	</h:form>
+	
+	
+
+	<div>
+		<ui:include src="/WEB-INF/templates/footer.xhtml">
+		</ui:include>
+	</div>
+</h:body>
+</html>

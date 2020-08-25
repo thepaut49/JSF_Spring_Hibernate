@@ -1,13 +1,13 @@
 package com.thepolo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thepolo.dao.IDaoKanji;
+import com.thepolo.daos.IDaoKanji;
 import com.thepolo.model.Kanji;
-import com.thepolo.model.Radical;
 
 @Service
 public class ServiceKanjiImpl implements IServiceKanji {
@@ -20,18 +20,19 @@ public class ServiceKanjiImpl implements IServiceKanji {
 	}
 
 	@Override
-	public void create(Kanji caractere) {
-		daoKanji.create(caractere);
+	public void create(Kanji kanji) {
+		System.out.println("serviceKanji :::: " + kanji.toString());
+		daoKanji.create(kanji);
 	}
 
 	@Override
-	public void update(Kanji caractere) {
-		daoKanji.update(caractere);
+	public void update(Kanji kanji) {
+		daoKanji.update(kanji);
 	}
 
 	@Override
-	public void delete(Kanji caractere) {
-		daoKanji.delete(caractere);
+	public void delete(Kanji kanji) {
+		daoKanji.delete(kanji);
 	}
 
 	@Override
@@ -45,8 +46,8 @@ public class ServiceKanjiImpl implements IServiceKanji {
 		return daoKanji.findCaractereById(id);
 	}
 
-	public List<Kanji> findKanjiByIdRadical(Integer id) {
-		return daoKanji.findKanjiByIdRadical(id);
+	public List<Kanji> findKanjiByRadicals(String radicals) {
+		return daoKanji.findKanjiByRadicals(radicals);
 	}
 
 	@Override
@@ -60,18 +61,25 @@ public class ServiceKanjiImpl implements IServiceKanji {
 	}
 
 	@Override
-	public List<Kanji> findMotBySens(String sens) {
-		return daoKanji.findMotBySens(sens);
+	public List<Kanji> findMotBySens(String meaning) {
+		return daoKanji.findMotBySens(meaning);
 	}
 
 	@Override
-	public List<Kanji> findMotBynbreTraitExacte(Integer nbreTrait) {
-		return daoKanji.findMotBynbreTraitExacte(nbreTrait);
+	public List<Kanji> findMotBynbreTraitExacte(Integer strokes) {
+		return daoKanji.findMotBynbreTraitExacte(strokes);
 	}
 
 	@Override
 	public List<Kanji> findMotBynbreTraitMinMax(Integer min, Integer max) {
 		return daoKanji.findMotBynbreTraitMinMax(min, max);
 	}
+
+	@Override
+	public List<Kanji> popularKanji() {
+		return daoKanji.popularKanji();
+	}
+	
+	
 
 }

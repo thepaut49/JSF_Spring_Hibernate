@@ -9,7 +9,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-	<title>Liste des Kanjis</title>
+	<title>Kanji</title>
+	<h:outputScript library="scripts" name="japeneseKeyBoard.js" />
 		
 
 </h:head>
@@ -20,153 +21,155 @@
 		</ui:include>
 	</div>
 	
-	<h:form>
-		<p:megaMenu orientation="#{megaMenuView.orientation}"
-			style="margin-top:20px;color:red">
-			<p:menuitem value="Recherche par nbre de trait" url="RechercheKanjibyList.xhtml" />
-			<p:menuitem value="Recherche par radicaux" url="RechercheKanjibyRadicaux.xhtml" />
-			<p:menuitem value="Autre type de recherche" url="RechercheKanjiKanaSensCaractere.xhtml" />
-			<p:menuitem value="Recherche vocabulaire" url="RechercheVocabulaire.xhtml" />
-			<p:menuitem value="Clavier japonais" url="JapeneseKeyBoard.xhtml" />
-			<p:menuitem value="Kanji" url="Kanji.xhtml" />
-			<p:menuitem value="Vocabulaire" url="Vocabulaire.xhtml" />
-			<p:menuitem value="Radicaux" url="Radical.xhtml" />
-			<p:menuitem value="Hirgana" url="Hiragana.xhtml" />
-			<p:menuitem value="Katakana" url="Katakana.xhtml" />
-		</p:megaMenu>
+	<h:form>  	 
+	    <p:menubar>
+	        <p:submenu label="Search Kanji" icon="ui-icon-search">
+	            <p:menuitem value="Search Kanji by radicals" url="RechercheKanjiByRadicals.xhtml" icon="ui-icon-search"/>
+	            <p:separator />
+	            <p:menuitem value="Search Kanji by Kanji/Kana/meaning" url="RechercheKanji.xhtml" icon="ui-icon-search"/>
+	        </p:submenu>
+	         
+	        <p:menuitem value="Search vocabulary" icon="ui-icon-search" url="RechercheVocabulaire.xhtml"/>
+	        
+	        <p:menuitem value="Search names" icon="ui-icon-search" url="RechercheNames.xhtml"/>
+	        
+	        <p:menuitem value="Japanese Keyboard" icon="ui-icon-search" url="JapeneseKeyBoard.xhtml"/>
+
+	        <p:menuitem value="Edit Kanji" icon="ui-icon-pencil" url="Kanji.xhtml"/>
+
+	        <p:menuitem value="Edit vocabulary" icon="ui-icon-pencil" url="Vocabulary.xhtml"/>
+
+	        <p:menuitem value="Edit names" icon="ui-icon-pencil" url="Names.xhtml"/>
+	
+	    </p:menubar>
 	</h:form>
-	<br/>
+	<br />
 
 	<h:form id="formulaireAjout">
 		<p:panelGrid id="ajoutKanji" columns="2" style="width:100%">
 			<f:facet name="header">
-				Ajouter un Kanji
+				Add a Kanji
 			</f:facet>
-			<label>Caractère :</label>
+			<label>Character :</label>
 			<p:inputText name="kanji" value="#{kanjiMb.newKanji.caractere}" />
 			<br />
-			<label>Prononciation Kana:</label>
-			<p:inputText name="prononciationKana"
-				value="#{kanjiMb.newKanji.prononciationKana}" style="width:100%" />
+			<label>Pronunciation :</label>
+			<h:inputTextarea name="prononciationKana" rows="4" cols="25"
+				value="#{kanjiMb.newKanji.pronunciation}" style="width:100%;" />
 			<br />
 
-			<label>nombre de trait :</label>
-			<p:inputText name="nbreTrait" value="#{kanjiMb.newKanji.nbreTrait}" />
+			<label>Strokes :</label>
+			<p:inputText name="strokes" value="#{kanjiMb.newKanji.strokes}" />
 			<br />
-			<label>Sens :</label>
-			<p:inputText name="sens" value="#{kanjiMb.newKanji.sens}"
+			<label>Meaning :</label>
+			<p:inputText name="sens" value="#{kanjiMb.newKanji.meaning}"
 				style="width:100%" />
 			<br />
 
-			<label>Radicaux :</label>
-			<p:dataGrid var="radical" value="#{kanjiMb.newKanji.radicaux}"
-				columns="10" layout="grid">
-
-				<p:commandButton value="#{radical.caractere}"
-					actionListener="#{kanjiMb.enleverSelectedRadical}" update="@all">
-					<f:attribute name="radicalSelected" value="#{radical}" />
-
-				</p:commandButton>
-
-
-			</p:dataGrid>
+			<label>Radicals :</label>
+			<p:inputText name="radicals" value="#{kanjiMb.newKanji.radicals}"
+				style="width:100%" />
 			<br />
 
-			<p:commandButton value="Ajouter Kanji"
+			<p:commandButton value="Add Kanji"
 				actionListener="#{kanjiMb.ajouterKanji()}" update="@all" />
-		</p:panelGrid>
-
+		</p:panelGrid>	
+		
 		<!-- *************Partie choix des radicaux du Kanji a ajouter*************** -->
-		<p:dataGrid var="radical" value="#{kanjiMb.selectedRadicaux}"
-			columns="12" layout="grid" id="tableauRadicaux">
+		<p:dataGrid var="radical" value="#{kanjiMb.radicalsList}"
+			columns="14" layout="grid" id="tableauRadicaux">
 			<f:facet name="header">
-            	Liste des Radicaux
+            	List of radicals
         	</f:facet>
-			<p:commandButton value="#{radical.caractere}"
+			<p:commandButton value="#{radical}"
 				actionListener="#{kanjiMb.ajouterSelectedRadical}" update="@all">
 				<f:attribute name="radicalSelected" value="#{radical}" />
 
 			</p:commandButton>
 		</p:dataGrid>
+		
 	</h:form>
-
+	
+	
 	<!-- *************Partie Affichage de la liste de Kanji*************** -->
 
 	<h:form id="table">
 
 		<p:dataTable id="tableauKanji" value="#{kanjiMb.service.selectAll()}"
-			var="kanji" selection="#{kanjiMb.selectedKanji}"
+			var="kanji"  selection="#{kanjiMb.selectedKanji}"
 			selectionMode="single" rowKey="#{kanji.id}">
 
 			<f:facet name="header">
-				Liste des Kanji
+				List of Kanji
 			</f:facet>
 
 			<p:ajax event="rowSelect" listener="#{kanjiMb.showSelectedKanji}"
 				update=":table" />
 
-			<p:column headerText="Id kanji" sortBy="#{kanji.id}">
+			<p:column headerText="Id" sortBy="#{kanji.id}" style="width:5%">
 				<h:outputText value="#{kanji.id}" />
 			</p:column>
 
-			<p:column headerText="Caractère">
+			<p:column headerText="Character">
 				<h:outputText value="#{kanji.caractere}" />
 			</p:column>
 
-			<p:column headerText="Prononciation Kana"
+			<p:column headerText="Pronunciation"
 				sortBy="#{kanji.prononciationKana}">
-				<h:outputText value="#{kanji.prononciationKana}" />
+				<h:outputText value="#{kanji.pronunciation}" />
 			</p:column>
 
-			<p:column headerText="Nombre de Trait" sortBy="#{kanji.nbreTrait}">
-				<h:outputText value="#{kanji.nbreTrait}" />
+			<p:column headerText="Strokes" sortBy="#{kanji.strokes}">
+				<h:outputText value="#{kanji.strokes}" />
 			</p:column>
 
-			<p:column headerText="Sens">
-				<h:outputText value="#{kanji.sens}" />
+			<p:column headerText="Meaning">
+				<h:outputText value="#{kanji.meaning}" />
 			</p:column>
 
-			<p:column headerText="Radicaux">
-				<p:dataGrid var="radical" value="#{kanji.radicaux}" columns="6"
-					layout="grid">
-					<h:outputText value="#{radical.caractere}" />
-				</p:dataGrid>
+			<p:column headerText="Radicals">
+				<h:outputText value="#{kanji.radicals}" />
 			</p:column>
 
 		</p:dataTable>
-
-
+		
+		
 		<p:dialog widgetVar="ficheKanji" modal="true"
-			header="Fiche du Kanji sélectionné" style="font-size:1.9em">
+			header="Selected Kanji infos" style="font-size:1.9em">
 			<p:panelGrid columns="2">
-				<label>Caractère :</label>
-				<p:inputText name="kanji"
+				<label>Character :</label>
+				<p:inputText name="selectedCaractere"
 					value="#{kanjiMb.selectedKanji.caractere}" />
 				<br />
-				<label>Prononciation en Kana:</label>
-				<h:outputText name="prononciationKana"
-					value="#{kanjiMb.selectedKanji.prononciationKana}" />
+				<label>Pronunciation :</label>
+				<h:inputTextarea name="selectedPrononciationKana" rows="4" cols="25"
+					value="#{kanjiMb.selectedKanji.pronunciation}" style="width:100%" />
 				<br />
-				<label>Nombre de trait :</label>
-				<h:outputText name="nbreTrait"
-					value="#{kanjiMb.selectedKanji.nbreTrait}" />
+				<label>Strokes :</label>
+				<p:inputText name="selectedNbreTrait"
+					value="#{kanjiMb.selectedKanji.strokes}" />
 				<br />
-				<label>Sens :</label>
-				<h:outputText name="sens" value="#{kanjiMb.selectedKanji.sens}" />
+				<label>Meaning :</label>
+				<p:inputText name="sens" value="#{kanjiMb.selectedKanji.meaning}" />
 				<br />
-
-				<label>Radicaux :</label>
-				<p:dataGrid var="radical" value="#{kanjiMb.selectedKanji.radicaux}"
-					columns="10" layout="grid">
-					<h:outputText value="#{radical.caractere}" />
-				</p:dataGrid>
-
-			</p:panelGrid>
+				<label>Radicals :</label>
+				<p:inputText name="selectedRadicals"
+					value="#{kanjiMb.selectedKanji.radicals}" />
+					
+				<p:commandButton value="Update"
+				actionListener="#{kanjiMb.modifierKanji()}" update="@all"/>
+					
+				<p:commandButton value="Close"
+				actionListener="#{kanjiMb.closePopUpKanji()}" update="@all"/>				
+				
+			</p:panelGrid>			
 
 		</p:dialog>
 
 
 	</h:form>
+	
+	
 
 	<div>
 		<ui:include src="/WEB-INF/templates/footer.xhtml">

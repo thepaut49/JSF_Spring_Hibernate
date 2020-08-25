@@ -51,28 +51,28 @@
 
 		<p:tabView>
 			
-			<p:tab title="Kanji">
+			<p:tab title="Character">
 
-				<label>Kanji : </label>
-				<p:inputText name="kanji" value="#{rechercheVocabulaireMb.kanji}" size="20" />
+				<label>Character : </label>
+				<p:inputText name="kanji" value="#{rechercheKanjiMb.kanji}" size="20" />
 				<span> </span>
 				<p:commandButton value="Rechercher"
-					actionListener="#{rechercheVocabulaireMb.rechercherByKanji()}" update=":table" />
+					actionListener="#{rechercheKanjiMb.rechercherByKanji()}" update=":table" />
 
 			</p:tab>
 			
 			<p:tab title="Kana">
 
 				<label>Kana : </label>
-				<p:inputText name="kanji" value="#{rechercheVocabulaireMb.kana}" onkeyup="translateString(this); return false;" size="20" />
+				<p:inputText name="kanji" value="#{rechercheKanjiMb.kana}" onkeyup="translateString(this); return false;" size="20" />
 				<span> </span>
 				<p:commandButton value="Rechercher"
-					actionListener="#{rechercheVocabulaireMb.rechercherByKana()}" update=":table" />
-					
+					actionListener="#{rechercheKanjiMb.rechercherByKana()}" update=":table" />
+				<br/>
 				<p:commandButton value="ん"
-					actionListener="#{rechercheVocabulaireMb.modifierKana('ん')}" update=":form" />
+					actionListener="#{rechercheKanjiMb.modifierKana('ん')}" update=":form" />
 				<p:commandButton value="ン"
-					actionListener="#{rechercheVocabulaireMb.modifierKana('ン')}" update=":form" />
+					actionListener="#{rechercheKanjiMb.modifierKana('ン')}" update=":form" />
 
 			</p:tab>
 
@@ -80,17 +80,17 @@
 			<p:tab title="Meaning">
 
 				<label>Meaning : </label>
-				<p:inputText name="sens" value="#{rechercheVocabulaireMb.meaning}" size="20" />
+				<p:inputText name="sens" value="#{rechercheKanjiMb.meaning}" size="20" />
 				<span> </span>
 				<p:commandButton value="Rechercher"
-					actionListener="#{rechercheVocabulaireMb.rechercherBySens()}" update=":table" />
+					actionListener="#{rechercheKanjiMb.rechercherBySens()}" update=":table" />
 
 			</p:tab>
 			
 		</p:tabView>
 
 		<p:commandButton value="Reboot"
-			actionListener="#{rechercheVocabulaireMb.reinitialiserRecherche()}"
+			actionListener="#{rechercheKanjiMb.reinitialiserRecherche()}"
 			update="@all" />
 	</h:form>
 	
@@ -101,72 +101,60 @@
 	<!-- *************Partie Affichage de la liste des résultats*************** -->
 
 	<h:form id="table">
-		<p:dataTable id="tableauKanji" value="#{rechercheVocabulaireMb.resultList}"
-			var="vocabulary" selection="#{rechercheVocabulaireMb.selectedVocabulary}"
-			selectionMode="single" rowKey="#{vocabulary.id}">
+		<p:dataTable id="tableauKanji" value="#{rechercheKanjiMb.resultList}"
+			var="kanji" selection="#{rechercheKanjiMb.selectedKanji}"
+			selectionMode="single" rowKey="#{kanji.id}">
 
 			<f:facet name="header">
 				Results list
 			</f:facet>
 
 			<p:ajax event="rowSelect" update=":table"
-				listener="#{rechercheVocabulaireMb.showSelectedVocabulary}" />
+				listener="#{rechercheKanjiMb.showSelectedKanji}" />
 
-			<p:column headerText="Word">
-				<h:outputText value="#{vocabulary.word}" size="30" style="font-weight: bold;width:20px;"/>
+			<p:column headerText="Strokes" sortBy="#{kanji.strokes}">
+				<h:outputText value="#{kanji.strokes}" size="30" />
+			</p:column>
+
+			<p:column headerText="Character">
+				<h:outputText value="#{kanji.caractere}" size="30" />
 			</p:column>
 
 			<p:column headerText="Pronunciation Kana">
-				<h:outputText value="#{vocabulary.pronunciation}" style="width:100%" />
+				<h:outputText value="#{kanji.pronunciation}" style="width:100%" />
 			</p:column>
 
 			<p:column headerText="Meaning">
-				<ol>
-					<li>#{vocabulary.meaning1}</li>
-					<li>#{vocabulary.meaning2}</li>
-					<li>#{vocabulary.meaning3}</li>
-				</ol>
+				<h:outputText value="#{kanji.meaning}" style="width:100%" />
 			</p:column>
 
 		</p:dataTable>
 
-		<p:dialog widgetVar="ficheVocabulary" modal="true"
-			header="Selected Word" style="font-size:1.9em">
+		<p:dialog widgetVar="ficheKanji" modal="true"
+			header="Selected Kanji" style="font-size:1.9em">
 			<p:panelGrid columns="2">
-				<label>Word :</label>
-				<p:inputText name="kanji" value="#{rechercheVocabulaireMb.selectedVocabulary.word}" />
+				<label>Character :</label>
+				<p:inputText name="kanji" value="#{rechercheKanjiMb.selectedKanji.caractere}" />
 				<br />
 				<label>Pronunciation :</label>
 				<h:outputText name="prononciationKana"
-					value="#{rechercheVocabulaireMb.selectedVocabulary.pronunciation}" />
+					value="#{rechercheKanjiMb.selectedKanji.pronunciation}" />
 				<br />
-				<label>Meaning  :</label>
-				
-				<p:panelGrid style="width:100%">
-					<p:row>
-        				<p:column style="font-weight: bold;width:20px;">1.</p:column>
-        				<p:column><p:inputText name="sens1selected"
-						value="#{rechercheVocabulaireMb.selectedVocabulary.meaning1}" style="width:100%" /></p:column>
-        			</p:row>
-        			
-        			<p:row>
-        				<p:column style="font-weight: bold;width:20px;">2.</p:column>
-        				<p:column><p:inputText name="sens2selected"
-						value="#{rechercheVocabulaireMb.selectedVocabulary.meaning2}" style="width:100%" /></p:column>
-        			</p:row>
-        			
-        			<p:row>
-        				<p:column style="font-weight: bold;width:20px;">3.</p:column>
-        				<p:column ><p:inputText name="sens3selected"
-						value="#{rechercheVocabulaireMb.selectedVocabulary.meaning3}" style="width:100%" /></p:column>
-        			</p:row>
-					
-				</p:panelGrid> 
-				<p:commandButton value="Add"
-					action="#{clavierMb.insertionRecherche(rechercheVocabulaireMb.selectedVocabulary)}" />
+				<label>Meaning :</label>
+				<h:outputText name="sens" value="#{rechercheKanjiMb.selectedKanji.meaning}" />
+				<br />
+				<label>Strokes :</label>
+				<h:outputText name="nbreTrait"
+					value="#{rechercheKanjiMb.selectedKanji.strokes}" />
+				<br />			
+				<label>Radicals :</label>
+				<h:outputText value="#{rechercheKanjiMb.selectedKanji.radicals}" />
 
-				<p:commandButton value="Fermer"
-					actionListener="#{rechercheVocabulaireMb.closePopUpVocabulary}" update=":table" />
+				<p:commandButton value="Add"
+					action="#{clavierMb.insertionRecherche(rechercheKanjiMb.selectedKanji)}" />
+
+				<p:commandButton value="Associated vocabulary"
+					action="#{rechercheVocabulaireMb.rechercherByKanjiBis(rechercheKanjiByRadicalsMb.selectedKanji.caractere)}"  />
 
 			</p:panelGrid>
 

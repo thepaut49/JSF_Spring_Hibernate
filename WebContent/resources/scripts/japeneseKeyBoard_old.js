@@ -32,6 +32,9 @@ function translateString(element) {
 		case 'o':
 			newString += 'お';
 			break;
+		case 'n':
+			newString += 'ん';
+			break;
 		case 'A':
 			newString += 'ア';
 			break;
@@ -46,6 +49,9 @@ function translateString(element) {
 			break;
 		case 'O':
 			newString += 'オ';
+			break;
+		case 'N':
+			newString += 'ン';
 			break;
 		default:
 			newString += stringToTranslate[i];
@@ -309,7 +315,7 @@ function translateString(element) {
 				break;
 
 			// !!!!!!!!!!! na ni nu ne no!!!!!!!!!!!
-			case 'nあ':
+			case 'んあ':
 				console.log(string);
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
@@ -320,7 +326,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'な';
 				break;
-			case 'nい':
+			case 'んい':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -330,7 +336,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'に';
 				break;
-			case 'nう':
+			case 'んう':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -340,7 +346,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ぬ';
 				break;
-			case 'nえ':
+			case 'んえ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -350,7 +356,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ね';
 				break;
-			case 'nお':
+			case 'んお':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -360,7 +366,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'の';
 				break;
-			case 'Nア':
+			case 'ンア':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -370,7 +376,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ナ';
 				break;
-			case 'Nイ':
+			case 'ンイ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -380,7 +386,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ニ';
 				break;
-			case 'Nウ':
+			case 'ンウ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -390,7 +396,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ヌ';
 				break;
-			case 'Nエ':
+			case 'ンエ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -400,7 +406,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ネ';
 				break;
-			case 'Nオ':
+			case 'ンオ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -1714,7 +1720,7 @@ function translateString(element) {
 				break;
 
 			// !!!!!!!!! nya nyu nyo!!!!!!!!
-			case 'nや':
+			case 'んや':
 				console.log(string);
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
@@ -1724,7 +1730,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'にゃ';
 				break;
-			case 'nゆ':
+			case 'んゆ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -1733,7 +1739,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'にゅ';
 				break;
-			case 'nよ':
+			case 'んよ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -1742,7 +1748,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'にょ';
 				break;
-			case 'Nヤ':
+			case 'ンヤ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -1751,7 +1757,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ニャ';
 				break;
-			case 'Nユ':
+			case 'ンユ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {
@@ -1760,7 +1766,7 @@ function translateString(element) {
 				newString2Letter = tempChaine;
 				newString2Letter += 'ニュ';
 				break;
-			case 'Nヨ':
+			case 'ンヨ':
 				var indexCaractereAEnlever = newString2Letter.length - 1;
 				var tempChaine = '';
 				for (var j = 0; j < indexCaractereAEnlever; j++) {

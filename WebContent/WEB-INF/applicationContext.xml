@@ -23,7 +23,7 @@
         destroy-method="close">
         <beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <beans:property name="url"
-            value="jdbc:mysql://localhost:3306/testdb" />
+            value="jdbc:mysql://localhost:3306/totodb" />
         <beans:property name="username" value="thepolo49" />
         <beans:property name="password" value="Pastel12008?" />
     </beans:bean>
@@ -34,12 +34,10 @@
         <beans:property name="dataSource" ref="dataSource" />
         <beans:property name="annotatedClasses">
             <beans:list>
-                <beans:value>com.thepolo.model.Hiragana</beans:value>
-                <beans:value>com.thepolo.model.Katakana</beans:value>
                 <beans:value>com.thepolo.model.Kanji</beans:value>
+                <beans:value>com.thepolo.model.Names</beans:value>
                 <beans:value>com.thepolo.model.Radical</beans:value>
-                <beans:value>com.thepolo.model.Vocabulaire</beans:value>
-                <beans:value>com.thepolo.model.KanjiRadicalAssociation</beans:value>
+                <beans:value>com.thepolo.model.Vocabulary</beans:value>
             </beans:list>
         </beans:property>
         <beans:property name="hibernateProperties">

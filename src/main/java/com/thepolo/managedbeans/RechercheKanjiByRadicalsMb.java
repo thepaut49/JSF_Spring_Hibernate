@@ -1,6 +1,10 @@
 package com.thepolo.managedbeans;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -8,10 +12,11 @@ import java.util.List;
 
 
 
+
+
+
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,30 +30,25 @@ import com.thepolo.model.Radical;
 import com.thepolo.service.IServiceKanji;
 
 
-@Controller(value = "kanjiMb")
+@Controller(value = "rechercheKanjiByRadicalsMb")
 @SessionScoped
-public class KanjiMb {
+public class RechercheKanjiByRadicalsMb {
 
 	@Autowired
 	private IServiceKanji service;
-
-	private Kanji newKanji;
 	
 	private Kanji selectedKanji;
 	
 	private List<String> radicalsList;
 	
-
+	private String radicals;
+	
+	private List<Kanji> resultList;
+	
+	private List<Kanji> triList;
+	
 
 	/****** Getter - Setter ******/
-
-	public Kanji getNewKanji() {
-		return newKanji;
-	}
-
-	public void setNewKanji(Kanji newKanji) {
-		this.newKanji = newKanji;
-	}
 	
 	public Kanji getSelectedKanji() {
 		return selectedKanji;
@@ -74,73 +74,83 @@ public class KanjiMb {
 		this.radicalsList = radicalsList;
 	}
 
-	/****** Constructeur ******/
-	public KanjiMb() {
-		super();
-
+	
+	public List<Kanji> getResultList() {
+		return resultList;
 	}
+
+	public void setResultList(List<Kanji> resultList) {
+		this.resultList = resultList;
+	}
+
+	public String getRadicals() {
+		return radicals;
+	}
+
+	public void setRadicals(String radicals) {
+		this.radicals = radicals;
+	}
+
+	/****** Constructeur ******/
+	public RechercheKanjiByRadicalsMb() {
+		super();
+	}
+	
+	
 
 	@PostConstruct
 	public void init() {
-		newKanji = new Kanji();
 		selectedKanji = new Kanji();
 		radicalsList = Radical.all;
+		resultList = service.popularKanji();
 	}
 
-	/****** Methode Kanji ******/
-	
-	
-	public boolean kanjiAlreadyExist(){
-		List<Kanji> kanjiList = service.selectAll();
-		for (Kanji kanji : kanjiList){
-			if (kanji.equals(newKanji)){
-				return true;
-			}
-		}
-		return false;
-	}
+	/****** Methodes ******/
 
-	public void ajouterKanji() {
-		if (!kanjiAlreadyExist()){
-			newKanji.setSearchCount(1);
-			service.create(newKanji);
-			newKanji = new Kanji();
-		}
+	
+	public void rechercherByRadicals(){
+		resultList = service.findKanjiByRadicals(radicals);
+		if (resultList != null && resultList.size() > 1){
+			Collections.sort(resultList, new Comparator<Kanji>() {
+			    @Override
+			    public int compare(Kanji kanji1, Kanji kanji2) {
+			    	int testNombreDeTrait = kanji1.getStrokes() - kanji2.getStrokes();
+			    	if (testNombreDeTrait < 0){
+			    		return -1;
+			    	}else if (testNombreDeTrait > 0){
+			    		return 1;
+			    	}else {
+			    		return 0;
+			    	}
+			    }
+			});
+		}		
 	}
 	
-	public void modifierKanji(){
-		selectedKanji.setSearchCount(selectedKanji.getSearchCount() + 1);
-		service.update(selectedKanji);
-		selectedKanji = new Kanji();
-	}
-	
-	public void supprimerKanji(){
-		service.delete(selectedKanji);
-		selectedKanji = new Kanji();
+	public void reinitialiserRecherche(){
+		radicals = "";
+		resultList = new ArrayList<Kanji>();
 	}
 	
 	public void ajouterSelectedRadical(ActionEvent event){
-		String radical = (String) event.getComponent().getAttributes().get("radicalSelected");
-		newKanji.setRadicals(newKanji.getRadicals()+radical);
+		String radical = (String) event.getComponent().getAttributes().get("radicalSelected2");
+		radicals = radicals+radical;
 	}
-	
-	public void selectionnerKanji(){
-		RequestContext context = RequestContext.getCurrentInstance();
-		context.execute("PF('ficheKanji').show();");
-	}
-	
+
+
 	public void showSelectedKanji(SelectEvent event){
 		selectedKanji.setSearchCount(selectedKanji.getSearchCount() + 1);
 		service.update(selectedKanji);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('ficheKanji').show();");
 	}
-	
+		
 	public void closePopUpKanji(){
 		selectedKanji = new Kanji();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("PF('ficheKanji').hide();");
-	}	
+	}
+	
 	
 
 }

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Kanji</title>
+	<h:outputScript library="scripts" name="japeneseKeyBoard.js" />
+		
+
+</h:head>
+<h:body>
+	<h:outputStylesheet library="CSS" name="style.css"/>
+	<div>
+		<ui:include src="/WEB-INF/templates/header.xhtml">
+		</ui:include>
+	</div>
+	
+	<h:form>  	 
+	    <p:menubar>
+	        <p:submenu label="Search Kanji" icon="ui-icon-search">
+	            <p:menuitem value="Search Kanji by radicals" url="RechercheKanjiByRadicals.xhtml" icon="ui-icon-search"/>
+	            <p:separator />
+	            <p:menuitem value="Search Kanji by Kanji/Kana/meaning" url="RechercheKanji.xhtml" icon="ui-icon-search"/>
+	        </p:submenu>
+	         
+	        <p:menuitem value="Search vocabulary" icon="ui-icon-search" url="RechercheVocabulaire.xhtml"/>
+	        
+	        <p:menuitem value="Search names" icon="ui-icon-search" url="RechercheNames.xhtml"/>
+	        
+	        <p:menuitem value="Japanese Keyboard" icon="ui-icon-search" url="JapeneseKeyBoard.xhtml"/>
+
+	        <p:menuitem value="Edit Kanji" icon="ui-icon-pencil" url="Kanji.xhtml"/>
+
+	        <p:menuitem value="Edit vocabulary" icon="ui-icon-pencil" url="Vocabulary.xhtml"/>
+
+	        <p:menuitem value="Edit names" icon="ui-icon-pencil" url="Names.xhtml"/>
+	
+	    </p:menubar>
+	</h:form>
+	<br />
+
+	<h:form id="form">
+
+
+		<p:panel header="Radicals">
+			<p:inputText id="radicalsSelected" value="#{rechercheKanjiByRadicalsMb.radicals}" size="20" />
+			<span> </span>
+			<p:commandButton value="Rechercher"
+				actionListener="#{rechercheKanjiByRadicalsMb.rechercherByRadicals()}" update=":table" />
+				
+			<p:commandButton value="Reboot"
+				actionListener="#{rechercheKanjiByRadicalsMb.reinitialiserRecherche()}"
+				update="@all" />
+			
+			<br />
+			<br />
+					
+			<!-- *************Partie choix des radicaux du Kanji a ajouter*************** -->
+			<p:dataGrid var="radical" value="#{rechercheKanjiByRadicalsMb.radicalsList}"
+				columns="14" layout="grid" id="tableauRadicaux">
+				<f:facet name="header">
+		           	List of radicals
+		       	</f:facet>
+				<p:commandButton value="#{radical}"
+					actionListener="#{rechercheKanjiByRadicalsMb.ajouterSelectedRadical}" update=":form:radicalsSelected">
+					<f:attribute name="radicalSelected2" value="#{radical}" />
+		
+				</p:commandButton>
+								
+			</p:dataGrid>	
+			<br />
+			<p:commandButton value="Rechercher"
+				actionListener="#{rechercheKanjiByRadicalsMb.rechercherByRadicals()}" update=":table" />
+			<p:commandButton value="Reboot"
+				actionListener="#{rechercheKanjiByRadicalsMb.reinitialiserRecherche()}"
+				update="@all" />
+							
+		</p:panel>
+
+		
+	</h:form>
+	
+	
+	<br />
+	<br />
+
+	<!-- *************Partie Affichage de la liste des résultats*************** -->
+
+	<h:form id="table">
+		<p:dataTable id="tableauKanji" value="#{rechercheKanjiByRadicalsMb.resultList}"
+			var="kanji" selection="#{rechercheKanjiByRadicalsMb.selectedKanji}"
+			selectionMode="single" rowKey="#{kanji.id}">
+
+			<f:facet name="header">
+				Results list
+			</f:facet>
+
+			<p:ajax event="rowSelect" update=":table"
+				listener="#{rechercheKanjiByRadicalsMb.showSelectedKanji}" />
+
+			<p:column headerText="Strokes" sortBy="#{kanji.strokes}">
+				<h:outputText value="#{kanji.strokes}" size="30" />
+			</p:column>
+
+			<p:column headerText="Character">
+				<h:outputText value="#{kanji.caractere}" size="30" />
+			</p:column>
+
+			<p:column headerText="Pronunciation Kana">
+				<h:outputText value="#{kanji.pronunciation}" style="width:100%" />
+			</p:column>
+
+			<p:column headerText="Meaning">
+				<h:outputText value="#{kanji.meaning}" style="width:100%" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:dialog widgetVar="ficheKanji" modal="true"
+			header="Selected Kanji" style="font-size:1.9em">
+			<p:panelGrid columns="2">
+				<label>Character :</label>
+				<p:inputText name="kanji" value="#{rechercheKanjiByRadicalsMb.selectedKanji.caractere}" />
+				<br />
+				<label>Pronunciation :</label>
+				<h:outputText name="prononciationKana"
+					value="#{rechercheKanjiByRadicalsMb.selectedKanji.pronunciation}" />
+				<br />
+				<label>Meaning :</label>
+				<h:outputText name="sens" value="#{rechercheKanjiByRadicalsMb.selectedKanji.meaning}" />
+				<br />
+				<label>Strokes :</label>
+				<h:outputText name="nbreTrait"
+					value="#{rechercheKanjiByRadicalsMb.selectedKanji.strokes}" />
+				<br />			
+				<label>Radicals :</label>
+				<h:outputText value="#{rechercheKanjiByRadicalsMb.selectedKanji.radicals}" />
+
+				<p:commandButton value="Add"
+					action="#{clavierMb.insertionRecherche(rechercheKanjiByRadicalsMb.selectedKanji)}" />
+
+				<p:commandButton value="Associated vocabulary"
+					action="#{rechercheVocabulaireMb.rechercherByKanjiBis(rechercheKanjiByRadicalsMb.selectedKanji.caractere)}"  />
+
+			</p:panelGrid>
+
+		</p:dialog>
+
+	</h:form>
+	
+	
+	
+	
+	
+	
+
+	<div>
+		<ui:include src="/WEB-INF/templates/footer.xhtml">
+		</ui:include>
+	</div>
+</h:body>
+</html>

@@ -20,6 +20,14 @@ html{
 }
 
 .ui-datagrid-column{
-	background-color: grey!important;
 	text-align: center;
 }
+
+.someCustomClass .ui-datagrid-column {
+	width: 16.66%;
+}
+
+.height8 {
+    height: 50px;
+}
+	
